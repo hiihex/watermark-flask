@@ -1,5 +1,5 @@
 from app import ALLOWED_EXTENSIONS
-from PIL import Image, ImageOps
+from PIL import Image
 import io
 import os
 import zipfile
@@ -15,8 +15,8 @@ def allowed_file(filename):
 def watermark_image(image: bytes, watermark: bytes) -> bytes:
     watermark_image_path = CURRENT_PATH + '/static/irish-reps-logo.png'
     watermark_logo = Image.open(io.BytesIO(watermark))
-    watermark_size = 240, 130
-    watermark_logo = ImageOps.contain(watermark_logo, watermark_size)
+    watermark_size = int(watermark_logo.width * .6), int(watermark_logo.height * .6)
+    watermark_logo = watermark_logo.resize(watermark_size)
 
     image = Image.open(io.BytesIO(image))
     print(watermark_logo.format, image.format)
@@ -24,7 +24,7 @@ def watermark_image(image: bytes, watermark: bytes) -> bytes:
 
     cropped = image.resize(image_crop_size)
 
-    cropped.paste(watermark_logo, (40, cropped.height - watermark_logo.height - 40), watermark_logo)
+    cropped.paste(watermark_logo, (25, cropped.height - watermark_logo.height - 25), watermark_logo)
 
     final_image = io.BytesIO()
     cropped.save(final_image, format='PNG')
