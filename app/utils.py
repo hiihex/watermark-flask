@@ -19,6 +19,7 @@ def watermark_image(image: bytes, watermark: bytes) -> bytes:
     watermark_logo = ImageOps.contain(watermark_logo, watermark_size)
 
     image = Image.open(io.BytesIO(image))
+    print(watermark_logo.format, image.format)
     image_crop_size = 1080, 1080
 
     cropped = image.resize(image_crop_size)
