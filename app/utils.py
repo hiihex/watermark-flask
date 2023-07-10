@@ -30,7 +30,7 @@ def watermark_image(image: bytes, watermark: bytes) -> bytes:
     cropped.save(final_image, format='PNG')
     final_image = final_image.getvalue()
 
-    waternark_logo.close()
+    watermark_logo.close()
     image.close()
 
     return final_image
