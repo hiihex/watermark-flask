@@ -36,9 +36,10 @@ def watermark_image(image: bytes, watermark: bytes) -> bytes:
 def create_zip_file(files, watermark):
     zip_bytes = io.BytesIO()
     zip_file = zipfile.ZipFile(zip_bytes, mode='w')
+    watermark = watermark[0].read()
 
     for file in files:
-        zip_file.writestr(file.filename, watermark_image(file.read(), watermark[0].read()))
+        zip_file.writestr(file.filename, watermark_image(file.read(), watermark))
 
     zip_file.close()
     zip_bytes.seek(0)
